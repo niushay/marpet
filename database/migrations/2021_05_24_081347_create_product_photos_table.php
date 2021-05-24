@@ -16,7 +16,7 @@ class CreateProductPhotosTable extends Migration
         Schema::create('product_photos', function (Blueprint $table) {
             $table->id();
             $table->string("image_url");
-            $table->string('product_id');
+            $table->foreignId('product_id')->constrained();
             $table->timestamps();
         });
     }
