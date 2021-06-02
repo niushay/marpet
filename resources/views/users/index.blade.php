@@ -43,7 +43,12 @@
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td>
-                                        <img class="rounded" style="width: 45px; height: 45px" src="{{url('storage/'.$user->picture)}}" alt="">
+
+                                        @if($user->picture != null)
+                                            <img  style="width: 45px; height: 45px" src="{{url('storage/'.$user->picture)}}" class="img-circle elevation-2" alt="User Image">
+                                        @else
+                                            <img style="width: 45px; height: 45px" src="{{url('images/user.png')}}" class="img-circle elevation-2" alt="User Image">
+                                        @endif
                                     </td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
