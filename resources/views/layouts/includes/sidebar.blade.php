@@ -2,11 +2,13 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
+            @if(auth()->user() != null)
                 @if(auth()->user()->picture != null)
                     <img src="{{url('storage/'.auth()->user()->picture)}}" class="img-circle elevation-2" alt="User Image">
                 @else
                     <img src="{{url('images/user.png')}}" class="img-circle elevation-2" alt="User Image">
                 @endif
+            @endif  
             </div>
             <div class="info">
                 @if(auth()->user() != null)
