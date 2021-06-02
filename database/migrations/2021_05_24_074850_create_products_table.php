@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->string('brand');
             $table->integer('qty');
+            $table->foreignId('category_id')->constrained();
             $table->timestamps();
         });
     }

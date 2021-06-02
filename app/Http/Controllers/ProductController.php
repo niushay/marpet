@@ -2,92 +2,80 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductPhoto;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('products.index');
+        $products = Product::orderBy('updated_at', 'desc')->paginate(5);
+        return view('products.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        dd($request->all());
-        Product::create([
-            'title',
-            'sub_title',
-            'description',
-            'price',
-            'brand',
-            'qty'
+        $pictures = $request->file('pictures');
+
+        $product = Product::create([
+            'title' => $request->input('title'),
+            'sub_title' => $request->input('sub_title'),
+            'description' => $request->input('description'),
+            'price'=> $request->input('price'),
+            'brand' => $request->input('brand'),
+            'qty' => $request->input('qty'),
+            'category_id' => $request->input('category_id')
         ]);
+
+        if($pictures != null) {
+            foreach ($pictures as $picture) {
+                ProductPhoto::create([
+                    'image_url' => $picture->store('images/products'),
+                    'product_id' => $product->id
+                ]);
+            }
+        }
+        return redirect()->route('products.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+
+        Product::findOrFail($id)->update([
+            'title' => $request->input('title'),
+            'sub_title' => $request->input('sub_title'),
+            'description' => $request->input('description'),
+            'price'=> $request->input('price'),
+            'brand' => $request->input('brand'),
+            'qty' => $request->input('qty'),
+            'category_id' => $request->input('category_id')
+        ]);
+        return redirect()->route('products.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        Product::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }

@@ -1,60 +1,73 @@
 @extends('layouts.app')
 
 @section('title')
-    dashboard
+    ایجاد محصول جدید
 @endsection
 
 @section('styles')
-    <script
-        src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
 @endsection
 
 @section('content')
-    <div class="col-md-12">
-        <!-- general form elements -->
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Quick Example</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form role="form" method="post" action="{{route('products.store')}}" id="formel">
-                @csrf
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="email">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <!-- general form elements -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">محصول جدید</h3>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputFile">File input</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="exampleInputFile" name="filee">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" method="post" action="{{route('products.store')}}" id="newUser" enctype="multipart/form-data">
+                        @csrf
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <input type="text" class="form-control form-control-sm" id="title" placeholder="عنوان" name="title">
+                                </div>
+                                <div class="form-group col">
+                                    <input type="text" class="form-control form-control-sm" id="sub_title" placeholder="زیرعنوان" name="sub_title">
+                                </div>
                             </div>
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="" >Upload</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                </div>
-                <!-- /.card-body -->
 
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary" onsubmit="removing()">Submit</button>
+                            <div class="form-group">
+                                <textarea class="form-control form-control-sm" id="description" placeholder="توضیحات" name="description"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <input type="number" class="form-control form-control-sm" id="price" placeholder="قیمت" name="price">
+                                </div>
+                                <div class="form-group col">
+                                    <input type="text" class="form-control form-control-sm" id="brand" placeholder="برند" name="brand">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="number" class="form-control form-control-sm" id="qty" placeholder="تعداد" name="qty">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="file" multiple="multiple"   class="form-control-file form-control-sm" id="picture" name="pictures[]">
+                            </div>
+
+                            <div class="form-group">
+                                <select  class="form-control form-control-sm" id="category" name="category_id">
+                                    <option value="">دسته بندی را انتخاب کنید</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer justify-content-center">
+                            <button type="submit" class="btn btn-success btn-sm">ذخیره</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <!-- /.card -->
+            </div>
         </div>
-        <!-- /.card -->
     </div>
 @endsection

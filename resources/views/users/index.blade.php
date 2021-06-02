@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    محصولات
+    کاربران
 @endsection
 
 @section('styles')
@@ -18,45 +18,43 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header d-flex justify-content-end">
-                        <h3 class="card-title text-right">محصولات</h3>
+                        <h3 class="card-title text-right">کاربران</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
-                        <table class="table table-hover table-striped">
+                        <table class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th style="width: 5%">ردیف</th>
                                 <th style="width: 5%">تصویر</th>
-                                <th style="width: 20%">عنوان محصول</th>
-                                <th style="width: 20%">زیر عنوان</th>
-                                <th style="width: 20%">توضیحات</th>
-                                <th style="width: 10%">قیمت</th>
-                                <th style="width: 20%">برند</th>
-                                <th style="width: 5%">تعداد</th>
-                                <th style="width: 10%">عملیات</th>
+                                <th style="width: 20%">نام کاربر</th>
+                                <th style="width: 20%">ایمیل</th>
+                                <th style="width: 10%">شماره تماس</th>
+                                <th style="width: 20%">آدرس</th>
+                                <th style="width: 5%">نقش</th>
+                                <th style="width: 15%">عملیات</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @php $i = 1 @endphp
-                            @foreach($products as $product)
+                            @php
+                                $i = 1
+                            @endphp
+                            @foreach($users as $user)
                                 <tr>
                                     <td>{{$i}}</td>
                                     <td>
-{{--                                        @if($product->pictures->first() != null)--}}
-                                            <img class="img-thumbnail" style="width: 45px; height: 45px" src="{{url($product->picture)}}" alt="pic">
-{{--                                        @endif--}}
+                                        <img class="rounded" style="width: 45px; height: 45px" src="{{url('storage/'.$user->picture)}}" alt="">
                                     </td>
-                                    <td>{{$product->title}}</td>
-                                    <td>{{$product->sub_title}}</td>
-                                    <td>{{$product->description}}</td>
-                                    <td>{{$product->price}}</td>
-                                    <td>{{$product->brand}}</td>
-                                    <td>{{$product->qty}}</td>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->phone}}</td>
+                                    <td>{{$user->address}}</td>
+                                    <td>{{$user->role}}</td>
                                     <td >
                                         <div class="row  justify-content-center" style="margin:0 auto">
-                                            <a class="text-warning" href="{{route('products.edit', $product->id)}}"><span class="fa fa-pencil-alt"></span></a>
+                                            <a class="text-warning" href="{{route('users.edit', $user->id)}}"><span class="fa fa-pencil-alt"></span></a>
                                             /
-                                            <form method="post" action="{{route('products.destroy', $product->id)}}">
+                                            <form method="post" action="{{route('users.destroy', $user->id)}}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="text-danger" type="submit"><span
@@ -67,6 +65,7 @@
                                 </tr>
                                 @php $i++ @endphp
                             @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -74,7 +73,10 @@
                 </div>
                 <!-- /.card -->
             </div>
-            {{$products->links()}}
+        </div>
+        <div class="col-md-12">
+            {{$users->links()}}
         </div>
     </div>
+
 @endsection

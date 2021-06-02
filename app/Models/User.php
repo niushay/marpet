@@ -10,13 +10,15 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    const ADMIN = 'admin';
+    const BUYER = 'buyer';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name' ,'last_name' ,'email' ,'phone' ,'email_verified_at' ,'password' ,'picture' ,'address'];
+    protected $fillable = ['name' ,'email' ,'phone' ,'email_verified_at' ,'password' ,'picture' ,'address', 'role'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -36,4 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * @var mixed
+     */
 }

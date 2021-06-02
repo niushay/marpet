@@ -26,41 +26,33 @@
                             <thead>
                             <tr>
                                 <th style="width: 5%">ردیف</th>
-                                <th style="width: 5%">تصویر</th>
-                                <th style="width: 20%">عنوان محصول</th>
-                                <th style="width: 20%">زیر عنوان</th>
-                                <th style="width: 20%">توضیحات</th>
-                                <th style="width: 10%">قیمت</th>
-                                <th style="width: 20%">برند</th>
-                                <th style="width: 5%">تعداد</th>
-                                <th style="width: 10%">عملیات</th>
+                                <th style="width: 5%">عنوان</th>
+                                <th style="width: 20%">زیر مجموعه</th>
+                                <th style="width: 20%">عملیات</th>
                             </tr>
                             </thead>
                             <tbody>
                             @php $i = 1 @endphp
-                            @foreach($products as $product)
+                            @foreach($categories as $category)
                                 <tr>
                                     <td>{{$i}}</td>
+                                    <td>{{$category->title}}</td>
                                     <td>
-{{--                                        @if($product->pictures->first() != null)--}}
-                                            <img class="img-thumbnail" style="width: 45px; height: 45px" src="{{url($product->picture)}}" alt="pic">
-{{--                                        @endif--}}
+                                        @if($category->super_caegory_id !=null)
+                                            {{\App\Models\Category::find($category->super_category_id)->first()->title}}
+                                        @else
+                                           ------
+                                        @endif
                                     </td>
-                                    <td>{{$product->title}}</td>
-                                    <td>{{$product->sub_title}}</td>
-                                    <td>{{$product->description}}</td>
-                                    <td>{{$product->price}}</td>
-                                    <td>{{$product->brand}}</td>
-                                    <td>{{$product->qty}}</td>
+
                                     <td >
                                         <div class="row  justify-content-center" style="margin:0 auto">
-                                            <a class="text-warning" href="{{route('products.edit', $product->id)}}"><span class="fa fa-pencil-alt"></span></a>
+                                            <a class="text-warning" href="{{route('categories.edit', $category->id)}}"><span class="fa fa-pencil-alt"></span></a>
                                             /
-                                            <form method="post" action="{{route('products.destroy', $product->id)}}">
+                                            <form method="post" action="{{route('categories.destroy', $category->id)}}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="text-danger" type="submit"><span
-                                                        class="fa fa-trash"></span></button>
+                                                <button class="text-danger" type="submit"><span class="fa fa-trash"></span></button>
                                             </form>
                                         </div>
                                     </td>
@@ -74,7 +66,7 @@
                 </div>
                 <!-- /.card -->
             </div>
-            {{$products->links()}}
+            {{$categories->links()}}
         </div>
     </div>
 @endsection
